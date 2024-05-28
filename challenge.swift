@@ -400,6 +400,10 @@ struct chall_list: View {
     var body: some View {
         
                 VStack(spacing: 10) {
+                    
+                    NavigationView {
+                        
+                        ScrollView {
                     Text("현재 진행중인 챌린지")
                         .font(.title)
                         .fontWeight(.bold)
@@ -408,8 +412,6 @@ struct chall_list: View {
                         .padding(.bottom, 10)
                                 
                     Divider()
-                    NavigationView {
-                    ScrollView {
                         ForEach(challenges) { challenge in
                             NavigationLink(destination: DetailView(challenge: challenge)) {
                                 VStack(alignment: .leading, spacing: 10) {
@@ -454,22 +456,22 @@ struct chall_list: View {
                         }
                     }
                 }
-                .alert(isPresented: $showingAlert) {
-                    Alert(
-                        title: Text("챌린지 포기"),
-                        message: Text("정말로 이 챌린지를 포기하시겠습니까?"),
-                        primaryButton: .destructive(Text("포기")) {
-                        if let challenge = selectedChallenge {
-                                challenges.removeAll(where: { $0.id == challenge.id })
-                            }
-                        },
-                        secondaryButton: .cancel()
-                    )
-                }
-                    
+                                    
         }
-        
+        .alert(isPresented: $showingAlert) {
+                Alert(
+                    title: Text("챌린지 포기"),
+                    message: Text("정말로 이 챌린지를 포기하시겠습니까?"),
+                    primaryButton: .destructive(Text("포기")) {
+                    if let challenge = selectedChallenge {
+                            challenges.removeAll(where: { $0.id == challenge.id })
+                        }
+                    },
+                    secondaryButton: .cancel()
+                )
+        }
     }
+
     
     // 날짜 포맷팅 함수
     func formattedDate(date: Date) -> String {
